@@ -573,6 +573,7 @@ void VID_SaveWindowSize( int width, int height, qboolean maximized )
 
 static qboolean VID_SetScreenResolution( int width, int height, window_mode_t window_mode )
 {
+#if 0
 #if SDL_VERSION_ATLEAST( 2, 0, 0 )
 	SDL_DisplayMode got;
 	Uint32 wndFlags = 0;
@@ -629,6 +630,7 @@ static qboolean VID_SetScreenResolution( int width, int height, window_mode_t wi
 #else
 	VID_SaveWindowSize( width, height, true );
 #endif
+#endif // DLW: Disabled for UWP
 	return true;
 }
 
@@ -708,7 +710,8 @@ static qboolean VID_CreateWindowWithSafeGL( const char *wndname, int xpos, int y
 	while( glw_state.safe >= SAFE_NO && glw_state.safe < SAFE_LAST )
 	{
 #if SDL_VERSION_ATLEAST( 2, 0, 0 )
-		host.hWnd = SDL_CreateWindow( wndname, xpos, ypos, w, h, flags );
+		if (!host.hWnd) // DLW: Hack for UWP can only make one window
+			host.hWnd = SDL_CreateWindow( wndname, xpos, ypos, w, h, SDL_WINDOW_OPENGL );
 #else
 		host.hWnd = sw.surf = SDL_SetVideoMode( width, height, 16, flags );
 #endif
@@ -1091,6 +1094,7 @@ qboolean R_Init_Video( const int type )
 
 rserr_t R_ChangeDisplaySettings( int width, int height, window_mode_t window_mode )
 {
+#if 0
 #if SDL_VERSION_ATLEAST( 2, 0, 0 )
 	SDL_DisplayMode displayMode;
 
@@ -1141,7 +1145,9 @@ rserr_t R_ChangeDisplaySettings( int width, int height, window_mode_t window_mod
 
 		VID_SaveWindowSize( width, height, true );
 	}
-
+#endif
+	VID_CreateWindow(3840, 2160, WINDOW_MODE_FULLSCREEN);
+	VID_SaveWindowSize( 3840, 2160, true );
 	return rserr_ok;
 }
 

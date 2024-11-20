@@ -391,6 +391,8 @@ void Sys_Warn( const char *format, ... )
 	Q_vsnprintf( text, MAX_PRINT_MSG, format, argptr );
 	va_end( argptr );
 
+	OutputDebugStringA(text);
+
 	Sys_DebugBreak();
 
 	Msg( "%s: %s\n", __func__, text );
@@ -430,6 +432,7 @@ void Sys_Error( const char *error, ... )
 
 	Sys_DebugBreak();
 
+	OutputDebugStringA( text );
 	SV_SysError( text );
 
 	if( !Host_IsDedicated() )

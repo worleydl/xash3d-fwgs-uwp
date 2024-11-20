@@ -353,8 +353,12 @@ static void Con_Printfv( qboolean debug, const char *szFmt, va_list args )
 		return; // hlrally spam
 
 	Sys_Print( buffer );
-	if( add_newline )
-		Sys_Print( "\n" );
+	OutputDebugStringA(buffer);
+	if (add_newline)
+	{
+		Sys_Print("\n");
+		OutputDebugStringA("\n");
+	}
 }
 
 /*
