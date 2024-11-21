@@ -631,6 +631,7 @@ static qboolean VID_SetScreenResolution( int width, int height, window_mode_t wi
 	VID_SaveWindowSize( width, height, true );
 #endif
 #endif // DLW: Disabled for UWP
+	VID_SaveWindowSize( 3480, 3160, true );
 	return true;
 }
 
@@ -710,8 +711,8 @@ static qboolean VID_CreateWindowWithSafeGL( const char *wndname, int xpos, int y
 	while( glw_state.safe >= SAFE_NO && glw_state.safe < SAFE_LAST )
 	{
 #if SDL_VERSION_ATLEAST( 2, 0, 0 )
-		if (!host.hWnd) // DLW: Hack for UWP can only make one window
-			host.hWnd = SDL_CreateWindow( wndname, xpos, ypos, w, h, SDL_WINDOW_OPENGL );
+		if (!host.hWnd) // DLW: UWP Hack -- can only make one window, keep track of ref
+			host.hWnd = SDL_CreateWindow( wndname, xpos, ypos, w, h, flags );
 #else
 		host.hWnd = sw.surf = SDL_SetVideoMode( width, height, 16, flags );
 #endif
@@ -1027,6 +1028,9 @@ qboolean R_Init_Video( const int type )
 	refState.desktopBitsPixel = 16;
 #endif
 
+	// DLW: Hack to force desktop bpp to correct mode
+	refState.desktopBitsPixel = 24;
+
 #ifdef SDL_HINT_QTWAYLAND_WINDOW_FLAGS
 	SDL_SetHint( SDL_HINT_QTWAYLAND_WINDOW_FLAGS, "OverridesSystemGestures" );
 #endif
@@ -1043,7 +1047,7 @@ qboolean R_Init_Video( const int type )
 
 	// must be initialized before creating window
 #if XASH_WIN32
-	WIN_SetDPIAwareness();
+	//WIN_SetDPIAwareness();
 #endif
 
 	switch( type )
@@ -1146,8 +1150,11 @@ rserr_t R_ChangeDisplaySettings( int width, int height, window_mode_t window_mod
 		VID_SaveWindowSize( width, height, true );
 	}
 #endif
-	VID_CreateWindow(3840, 2160, WINDOW_MODE_FULLSCREEN);
-	VID_SaveWindowSize( 3840, 2160, true );
+	int xw = 3840;
+	int xh = 2160;
+
+	VID_CreateWindow(xw, xh, WINDOW_MODE_FULLSCREEN);
+	VID_SaveWindowSize( xw, xh, true );
 	return rserr_ok;
 }
 
