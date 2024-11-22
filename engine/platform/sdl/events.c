@@ -214,7 +214,7 @@ static void SDLash_KeyEvent( SDL_KeyboardEvent key )
 		case SDL_SCANCODE_MINUS: keynum = '-'; break;
 		case SDL_SCANCODE_TAB: keynum = K_TAB; break;
 		case SDL_SCANCODE_RETURN: keynum = K_ENTER; break;
-		case SDL_SCANCODE_AC_BACK:
+		//case SDL_SCANCODE_AC_BACK: DLW: Disable B btn treated as escape
 		case SDL_SCANCODE_ESCAPE: keynum = K_ESCAPE; break;
 		case SDL_SCANCODE_SPACE: keynum = K_SPACE; break;
 		case SDL_SCANCODE_BACKSPACE: keynum = K_BACKSPACE; break;
