@@ -684,7 +684,9 @@ qboolean Voice_Init( const char *pszCodecName, int quality, qboolean preinit )
 			return false;
 		}
 
-		voice.device_opened = VoiceCapture_Init();
+		// DLW: Doesn't work on UWP
+		//voice.device_opened = VoiceCapture_Init();
+		voice.device_opened = false;
 
 		if( !voice.device_opened )
 			Con_Printf( S_WARN "No microphone is available.\n" );
