@@ -383,8 +383,12 @@ static void SDLash_ActiveEvent( int gain )
 			IN_ActivateMouse( );
 
 		host.force_draw_version_time = host.realtime + FORCE_DRAW_VERSION_TIME;
+
+		// DLW: Don't call twice on UWP
+		/*
 		if( vid_fullscreen.value == WINDOW_MODE_FULLSCREEN )
 			VID_SetMode();
+		*/
 	}
 	else
 	{

@@ -1002,19 +1002,16 @@ static void Host_InitCommon( int argc, char **argv, const char *progname, qboole
 
 	host.allow_console = DEFAULT_ALLOWCONSOLE;
 
-	if( Sys_CheckParm( "-dev" ) || 1) // DLW: Debugging UWP, forced on
+	if( Sys_CheckParm( "-dev" ) )
 	{
 		host.allow_console = true;
-		//developer = DEV_NORMAL;
-		developer = bound( DEV_NONE, abs(2), DEV_EXTENDED );
+		developer = DEV_NORMAL;
 
-		/*
 		if( Sys_GetParmFromCmdLine( "-dev", dev_level ))
 		{
 			if( Q_isdigit( dev_level ))
 				developer = bound( DEV_NONE, abs( Q_atoi( dev_level )), DEV_EXTENDED );
 		}
-		*/
 	}
 
 #if XASH_ENGINE_TESTS

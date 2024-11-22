@@ -711,8 +711,7 @@ static qboolean VID_CreateWindowWithSafeGL( const char *wndname, int xpos, int y
 	while( glw_state.safe >= SAFE_NO && glw_state.safe < SAFE_LAST )
 	{
 #if SDL_VERSION_ATLEAST( 2, 0, 0 )
-		if (!host.hWnd) // DLW: UWP Hack -- can only make one window, keep track of ref
-			host.hWnd = SDL_CreateWindow( wndname, xpos, ypos, w, h, flags );
+		host.hWnd = SDL_CreateWindow( wndname, xpos, ypos, w, h, flags );
 #else
 		host.hWnd = sw.surf = SDL_SetVideoMode( width, height, 16, flags );
 #endif
